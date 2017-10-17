@@ -8,26 +8,30 @@ require 'securerandom'
 module OmniAuthTestHelper
   mattr_accessor :default_options
 
-  def mock_auth_hash(attributes = {})
-    info_attributes = attributes.slice(
-      *%i(
-        name
-        email
-        nickname
-        first_name
-        last_name
-        location
-        description
-        image
-        phone
-        urls
-     )
-    )
+  INFO_KEYS = %i(name email nickname first_name last_name location description image phone urls).freeze
+
+  def mock_auth_hash(args = {})
     auth_hash = {
-      provider: (attributes[:provider] || OmniAuthTestHelper.default_options[:provider]).to_s,
-      uid: (attributes[:uid] || SecureRandom.uuid).to_s,
-      info: info_attributes.merge(name: attributes[:name].to_s)
+      provider: detect_provider(args),
+      uid: detect_uid(args),
+      info: detect_info(args)
     }
     auth_hash.deep_stringify_keys
   end
+
+  private
+
+    def detect_provider(args)
+      (args[:provider] || OmniAuthTestHelper.default_options[:provider]).to_s
+    end
+
+    def detect_uid(args)
+      (args[:uid] || SecureRandom.uuid).to_s
+    end
+
+    def detect_info(args)
+      args
+        .slice(*INFO_KEYS)
+        .merge(name: args[:name].to_s)
+    end
 end
