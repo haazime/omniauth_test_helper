@@ -2,6 +2,9 @@ require 'spec_helper'
 
 RSpec.describe 'mock_auth_hash' do
   before do
+    OmniAuthTestHelper.default_options = {
+      provider: :twitter
+    }
     RSpec.configure do |c|
       c.include OmniAuthTestHelper
     end
@@ -54,7 +57,7 @@ RSpec.describe 'mock_auth_hash' do
 
   it do
     OmniAuthTestHelper.default_options = {
-      provider: :google_oauth2
+      provider: :facebook
     }
     auth_hash =
       mock_auth_hash(
@@ -62,6 +65,6 @@ RSpec.describe 'mock_auth_hash' do
       )
     provider = auth_hash['provider']
 
-    expect(provider).to eq('google_oauth2')
+    expect(provider).to eq('facebook')
   end
 end
