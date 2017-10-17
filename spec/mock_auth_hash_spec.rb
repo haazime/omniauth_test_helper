@@ -67,4 +67,34 @@ RSpec.describe 'mock_auth_hash' do
 
     expect(provider).to eq('facebook')
   end
+
+  it do
+    auth_hash =
+      mock_auth_hash(
+        name: 'Resource Owner',
+        email: 'resource.owner@gmail.com',
+        nickname: 'R.O',
+        first_name: 'Resource',
+        last_name: 'Owner',
+        location: 'Japan',
+        description: 'A Smart Guy',
+        image: 'http://the.users.image/size/50x50.jpg',
+        phone: '0123456789',
+        urls: {
+          Blog: 'http://the.blog/user'
+        }
+      )
+
+    aggregate_failures do
+      expect(auth_hash['info']['email']).to eq('resource.owner@gmail.com')
+      expect(auth_hash['info']['nickname']).to eq('R.O')
+      expect(auth_hash['info']['first_name']).to eq('Resource')
+      expect(auth_hash['info']['last_name']).to eq('Owner')
+      expect(auth_hash['info']['location']).to eq('Japan')
+      expect(auth_hash['info']['description']).to eq('A Smart Guy')
+      expect(auth_hash['info']['image']).to eq('http://the.users.image/size/50x50.jpg')
+      expect(auth_hash['info']['phone']).to eq('0123456789')
+      expect(auth_hash['info']['urls']['Blog']).to eq('http://the.blog/user')
+    end
+  end
 end
