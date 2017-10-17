@@ -97,4 +97,31 @@ RSpec.describe 'mock_auth_hash' do
       expect(auth_hash['info']['urls']['Blog']).to eq('http://the.blog/user')
     end
   end
+
+  it do
+    auth_hash =
+      mock_auth_hash(
+        name: 'Resource Owner',
+        info: {
+          'name': 'True Name'
+        }
+      )
+
+    expect(auth_hash['info']['name']).to eq('True Name')
+  end
+
+  it do
+    auth_hash =
+      mock_auth_hash(
+        first_name: 'Resource',
+        info: {
+          'last_name': 'Owner'
+        }
+      )
+
+    aggregate_failures do
+      expect(auth_hash['info']['first_name']).to eq('Resource')
+      expect(auth_hash['info']['last_name']).to eq('Owner')
+    end
+  end
 end

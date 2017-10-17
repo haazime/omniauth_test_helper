@@ -10,7 +10,8 @@ module OmniAuthTestHelper
 
   INFO_KEYS = %i(name email nickname first_name last_name location description image phone urls).freeze
 
-  def mock_auth_hash(args = {})
+  def mock_auth_hash(an_args = {})
+    args = an_args.deep_symbolize_keys
     auth_hash = {
       provider: detect_provider(args),
       uid: detect_uid(args),
@@ -30,8 +31,8 @@ module OmniAuthTestHelper
     end
 
     def detect_info(args)
-      args
-        .slice(*INFO_KEYS)
+      args.slice(*INFO_KEYS)
         .merge(name: args[:name].to_s)
+        .merge(args[:info] || {})
     end
 end
