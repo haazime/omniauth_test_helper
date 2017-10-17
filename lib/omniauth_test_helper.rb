@@ -10,8 +10,8 @@ module OmniAuthTestHelper
   
   def mock_auth_hash(attributes = {})
     auth_hash = {
-      provider: attributes[:provider] || OmniAuthTestHelper.default_options[:provider].to_s,
-      uid: attributes[:uid] || SecureRandom.uuid,
+      provider: (attributes[:provider] || OmniAuthTestHelper.default_options[:provider]).to_s,
+      uid: (attributes[:uid] || SecureRandom.uuid).to_s,
       info: {
         name: attributes[:name].to_s
       }
