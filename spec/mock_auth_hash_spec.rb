@@ -29,14 +29,10 @@ RSpec.describe 'mock_auth_hash' do
     auth_hash =
       mock_auth_hash(
         provider: :google_oauth2,
-        uid: :uid123,
-        name: :Resource_Owner
       )
 
     aggregate_failures do
       expect(auth_hash['provider']).to eq('google_oauth2')
-      expect(auth_hash['uid']).to eq('uid123')
-      expect(auth_hash['info']['name']).to eq('Resource_Owner')
     end
   end
 

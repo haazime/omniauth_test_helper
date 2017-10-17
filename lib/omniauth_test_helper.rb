@@ -27,12 +27,11 @@ module OmniAuthTestHelper
     end
 
     def detect_uid(args)
-      (args[:uid] || SecureRandom.uuid).to_s
+      args[:uid] || SecureRandom.uuid
     end
 
     def detect_info(args)
       args.slice(*INFO_KEYS)
-        .merge(name: args[:name].to_s)
         .merge(args[:info] || {})
     end
 end
