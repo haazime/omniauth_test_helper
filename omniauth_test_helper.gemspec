@@ -5,12 +5,12 @@ require "omniauth_test_helper/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "omniauth_test_helper"
-  spec.version       = OmniauthTestHelper::VERSION
+  spec.version       = OmniAuthTestHelper::VERSION
   spec.authors       = ["haazime"]
   spec.email         = ["h4zime@gmail.com"]
 
-  spec.summary       = %q{Test helper for Omniauth}
-  spec.description   = %q{Test helper for Omniauth}
+  spec.summary       = %q{Test helper for OmniAuth}
+  spec.description   = %q{Test helper for OmniAuth}
   spec.homepage      = "https://github.com/haazime/omniauth_test_helper"
   spec.license       = "MIT"
 

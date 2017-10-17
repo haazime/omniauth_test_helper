@@ -1,5 +1,5 @@
 require "omniauth_test_helper/version"
 
-module OmniauthTestHelper
+module OmniAuthTestHelper
   # Your code goes here...
 end
