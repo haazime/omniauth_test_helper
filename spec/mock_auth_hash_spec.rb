@@ -36,4 +36,17 @@ RSpec.describe 'mock_auth_hash' do
       expect(uid.size).to be > 1
     end
   end
+
+  it do
+    OmniAuthTestHelper.default_options = {
+      provider: :google_oauth2
+    }
+    auth_hash =
+      mock_auth_hash(
+        name: 'Resource Owner'
+      )
+    provider = auth_hash['provider']
+
+    expect(provider).to eq('google_oauth2')
+  end
 end
