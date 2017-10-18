@@ -6,10 +6,22 @@ require 'active_support/core_ext/module'
 require 'securerandom'
 
 module OmniAuthTestHelper
-  mattr_accessor :default_options
+  mattr_accessor :default_options, :generators
+
+  self.generators = {}
 
   INFO_KEYS = %i(name email nickname first_name last_name location description image phone urls).freeze
   INFO_KEYS_SET = Set[*(%i(provider uid) + INFO_KEYS)].freeze
+
+  class << self
+    def register_generators
+      yield(self)
+    end
+
+    def generate_for(key, &block)
+      self.generators[key] = block
+    end
+  end
 
   def mock_auth_hash(an_args = {})
     args = an_args.deep_symbolize_keys
@@ -37,8 +49,18 @@ module OmniAuthTestHelper
     end
 
     def detect_info(args)
-      args
-        .slice(*INFO_KEYS)
+      default =
+        INFO_KEYS.each_with_object({}) do |k, h|
+          value =
+            if generator = OmniAuthTestHelper.generators[k]
+              generator.call
+            else
+              nil
+            end
+          h[k] = value
+        end
+      default
+        .merge(args.slice(*INFO_KEYS))
         .merge(args[:info] || {})
     end
 
