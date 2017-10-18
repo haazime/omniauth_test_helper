@@ -47,7 +47,7 @@ RSpec.describe 'mock_auth_hash' do
     expect(auth_hash['info']['email']).to eq('user@gmail.com')
   end
 
-  xit do
+  it do
     OmniAuthTestHelper.register_generator do |g|
       g.for(:provider) { 'facebook' }
       g.for(:uid) { '0123456789' }
@@ -57,6 +57,7 @@ RSpec.describe 'mock_auth_hash' do
 
     OmniAuthTestHelper.register_generator_on(:admin) do |g|
       g.for(:provider) { 'google_oauth2' }
+      g.for(:uid) { '0123456789' }
       g.for(:name) { |h| "Admin #{h[:uid][0, 3]}" }
       g.for(:email) { |h| "#{h[:uid]}@company.com" }
     end

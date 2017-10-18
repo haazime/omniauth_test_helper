@@ -21,19 +21,29 @@ module OmniAuthTestHelper
     end
   end
 
-  def mock_auth_hash(args = {})
-    default =
-      if generator = OmniAuthTestHelper.generators[:default]
-        AuthHashBuilder.build(generator.generate)
-      else
-        {}
-      end
-
-    overrides = AuthHashBuilder.build(args)
-
-    auth_hash = default.deep_merge(overrides)
-
-    yield(auth_hash) if block_given?
-    auth_hash
+  def mock_auth_hash(args = {}, &block)
+    mock_auth_hash_on(:default, args, &block)
   end
+
+  def mock_auth_hash_on(context, args = {}, &block)
+    build_auth_hash(args, OmniAuthTestHelper.generators[context.to_sym], &block)
+  end
+
+  private
+
+    def build_auth_hash(args = {}, generator)
+      default =
+        if generator
+          AuthHashBuilder.build(generator.generate)
+        else
+          {}
+        end
+
+      overrides = AuthHashBuilder.build(args)
+
+      auth_hash = default.deep_merge(overrides)
+
+      yield(auth_hash) if block_given?
+      auth_hash
+    end
 end
