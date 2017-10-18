@@ -108,4 +108,18 @@ RSpec.describe 'mock_auth_hash' do
       expect(auth_hash['info']['last_name']).to eq('Owner')
     end
   end
+
+  it do
+    auth_hash =
+      mock_auth_hash(
+        gender: 'male',
+        extra: {
+          raw_info: {
+            locale: 'ja_JP'
+          }
+        }
+      )
+    expect(auth_hash['extra']['raw_info']['gender']).to eq('male')
+    expect(auth_hash['extra']['raw_info']['locale']).to eq('ja_JP')
+  end
 end
