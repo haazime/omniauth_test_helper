@@ -7,17 +7,23 @@ require 'omniauth_test_helper/auth_hash_builder'
 require 'omniauth_test_helper/value_generator'
 
 module OmniAuthTestHelper
-  mattr_accessor :generator
+  mattr_accessor :generators
+
+  self.generators = {}
 
   class << self
     def register_generator(&block)
-      self.generator = ValueGenerator.new(&block)
+      register_generator_on(:default, &block)
+    end
+
+    def register_generator_on(context, &block)
+      self.generators[context.to_sym] = ValueGenerator.new(&block)
     end
   end
 
   def mock_auth_hash(args = {})
     default =
-      if generator = OmniAuthTestHelper.generator
+      if generator = OmniAuthTestHelper.generators[:default]
         AuthHashBuilder.build(generator.generate)
       else
         {}
