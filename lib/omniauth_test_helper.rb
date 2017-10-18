@@ -13,12 +13,16 @@ module OmniAuthTestHelper
 
   def mock_auth_hash(an_args = {})
     args = an_args.deep_symbolize_keys
+
     auth_hash = {
       provider: detect_provider(args),
       uid: detect_uid(args),
       info: detect_info(args),
       extra: detect_extra(args)
     }
+
+    yield(auth_hash) if block_given?
+
     auth_hash.deep_stringify_keys
   end
 

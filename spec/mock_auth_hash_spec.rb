@@ -122,4 +122,12 @@ RSpec.describe 'mock_auth_hash' do
     expect(auth_hash['extra']['raw_info']['gender']).to eq('male')
     expect(auth_hash['extra']['raw_info']['locale']).to eq('ja_JP')
   end
+
+  it do
+    auth_hash =
+      mock_auth_hash(email: 'override') do |h|
+        h[:info][:email] = 'resource.owner@gmail.com'
+      end
+    expect(auth_hash['info']['email']).to eq('resource.owner@gmail.com')
+  end
 end
