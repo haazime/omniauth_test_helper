@@ -23,7 +23,7 @@ module OmniAuthTestHelper
       build_uid
       build_info
       build_extra
-      @auth_hash.deep_stringify_keys
+      @auth_hash.deep_stringify_keys!
     end
 
     private
