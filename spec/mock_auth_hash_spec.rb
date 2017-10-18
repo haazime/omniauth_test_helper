@@ -26,13 +26,6 @@ RSpec.describe 'mock_auth_hash' do
   end
 
   it do
-    auth_hash = mock_auth_hash(email: 'override me') do |h|
-      h['info']['email'] = 'resource.owner@gmail.com'
-    end
-    expect(auth_hash['info']['email']).to eq('resource.owner@gmail.com')
-  end
-
-  it do
     name_suffix = 'from OAuth'
     OmniAuthTestHelper.register_generator do |g|
       g.for(:name) do

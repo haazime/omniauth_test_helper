@@ -41,9 +41,6 @@ module OmniAuthTestHelper
 
       overrides = AuthHashBuilder.build(args)
 
-      auth_hash = default.deep_merge(overrides)
-
-      yield(auth_hash) if block_given?
-      auth_hash
+      default.deep_merge!(overrides)
     end
 end
