@@ -4,7 +4,7 @@ RSpec.describe OmniAuthTestHelper::ValueGenerator do
   it do
     number = 777
 
-    generator = 
+    generator =
       described_class.new do |g|
         g.for(:name) do
           "User #{number}"
@@ -18,6 +18,23 @@ RSpec.describe OmniAuthTestHelper::ValueGenerator do
     aggregate_failures do
       expect(values[:name]).to eq('User 777')
       expect(values[:email]).to eq('user.777@gmail.com')
+    end
+  end
+
+  it do
+    generator =
+      described_class.new do |g|
+        g.for(:uid) do
+          'abcdefg'
+        end
+        g.for(:name) do |h|
+          "User #{h[:uid]}"
+        end
+      end
+
+    values = generator.generate
+    aggregate_failures do
+      expect(values[:name]).to eq('User abcdefg')
     end
   end
 end

@@ -2,6 +2,11 @@ require 'spec_helper'
 
 RSpec.describe OmniAuthTestHelper::AuthHashBuilder do
   it do
+    auth_hash = described_class.build
+    expect(auth_hash).to eq({})
+  end
+
+  it do
     auth_hash = described_class.build(
       provider: 'google_oauth2',
       uid: 'uid123',
@@ -18,9 +23,7 @@ RSpec.describe OmniAuthTestHelper::AuthHashBuilder do
     auth_hash = described_class.build(
       info: { name: 'Resource Owner' }
     )
-    aggregate_failures do
-      expect(auth_hash['info']['name']).to eq('Resource Owner')
-    end
+    expect(auth_hash['info']['name']).to eq('Resource Owner')
   end
 
   it do
@@ -60,6 +63,17 @@ RSpec.describe OmniAuthTestHelper::AuthHashBuilder do
       expect(auth_hash['info']['phone']).to eq('0123456789')
       expect(auth_hash['info']['urls']['Blog']).to eq('http://the.blog/user')
     end
+  end
+
+  it do
+    auth_hash = described_class.build(
+      extra: {
+        raw_info: {
+          locale: 'ja_JP'
+        }
+      }
+    )
+    expect(auth_hash['extra']['raw_info']['locale']).to eq('ja_JP')
   end
 
   it do

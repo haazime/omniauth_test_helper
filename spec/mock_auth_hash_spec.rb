@@ -8,6 +8,24 @@ RSpec.describe 'mock_auth_hash' do
   end
 
   it do
+    OmniAuthTestHelper.register_generator do |g|
+      g.for(:provider) { 'twitter' }
+      g.for(:uid) { '0123456789' }
+      g.for(:name) { |h| "User #{h[:uid][0, 3]}" }
+      g.for(:email) { |h| "#{h[:uid]}@gmail.com" }
+    end
+
+    auth_hash = mock_auth_hash
+
+    aggregate_failures do
+      expect(auth_hash['provider']).to eq('twitter')
+      expect(auth_hash['uid']).to eq('0123456789')
+      expect(auth_hash['info']['name']).to eq('User 012')
+      expect(auth_hash['info']['email']).to eq('0123456789@gmail.com')
+    end
+  end
+
+  it do
     auth_hash = mock_auth_hash(email: 'override me') do |h|
       h['info']['email'] = 'resource.owner@gmail.com'
     end
