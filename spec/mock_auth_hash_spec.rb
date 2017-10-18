@@ -2,9 +2,6 @@ require 'spec_helper'
 
 RSpec.describe 'mock_auth_hash' do
   before do
-    OmniAuthTestHelper.default_options = {
-      provider: :twitter
-    }
     RSpec.configure do |c|
       c.include OmniAuthTestHelper
     end
@@ -17,7 +14,6 @@ RSpec.describe 'mock_auth_hash' do
         uid: 'uid123',
         name: 'Resource Owner'
       )
-
     aggregate_failures do
       expect(auth_hash['provider']).to eq('google_oauth2')
       expect(auth_hash['uid']).to eq('uid123')
@@ -30,7 +26,6 @@ RSpec.describe 'mock_auth_hash' do
       mock_auth_hash(
         provider: :google_oauth2,
       )
-
     aggregate_failures do
       expect(auth_hash['provider']).to eq('google_oauth2')
     end
@@ -42,12 +37,10 @@ RSpec.describe 'mock_auth_hash' do
         provider: 'google_oauth2',
         name: 'Resource Owner'
       )
-    uid = auth_hash['uid']
-
     aggregate_failures do
-      expect(uid).to_not be_nil
-      expect(uid).to be_instance_of(String)
-      expect(uid.size).to be > 1
+      expect(auth_hash['uid']).to_not be_nil
+      expect(auth_hash['uid']).to be_instance_of(String)
+      expect(auth_hash['uid'].size).to be > 1
     end
   end
 
@@ -59,9 +52,7 @@ RSpec.describe 'mock_auth_hash' do
       mock_auth_hash(
         name: 'Resource Owner'
       )
-    provider = auth_hash['provider']
-
-    expect(provider).to eq('facebook')
+    expect(auth_hash['provider']).to eq('facebook')
   end
 
   it do
@@ -80,7 +71,6 @@ RSpec.describe 'mock_auth_hash' do
           Blog: 'http://the.blog/user'
         }
       )
-
     aggregate_failures do
       expect(auth_hash['info']['email']).to eq('resource.owner@gmail.com')
       expect(auth_hash['info']['nickname']).to eq('R.O')
@@ -102,7 +92,6 @@ RSpec.describe 'mock_auth_hash' do
           'name': 'True Name'
         }
       )
-
     expect(auth_hash['info']['name']).to eq('True Name')
   end
 
@@ -114,7 +103,6 @@ RSpec.describe 'mock_auth_hash' do
           'last_name': 'Owner'
         }
       )
-
     aggregate_failures do
       expect(auth_hash['info']['first_name']).to eq('Resource')
       expect(auth_hash['info']['last_name']).to eq('Owner')
